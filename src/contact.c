@@ -66,3 +66,37 @@ void delete_contact(long contact_index, FILE* file) {
 
 	free(new_contacts);
 }
+
+unsigned long* search_contacts(const char* search_term, FILE* file) {
+	file = fopen("contact_data.dat", "rb");
+	Contact current_contact;
+	char* lowercased_search_term = str_tolower(search_term);
+	unsigned long* searched_positions = (unsigned long*) malloc(sizeof(unsigned long));
+	unsigned long found_count = 0;
+	searched_positions[0] = found_count;
+	
+	rewind(file);
+
+	while (fread(&current_contact, sizeof(Contact), 1, file)) {
+		char* lowercased_contact_name = str_tolower(current_contact.name);
+		char* lowercased_contact_phone_number = str_tolower(current_contact.phone_number);
+		char* lowercased_contact_email = str_tolower(current_contact.email);
+
+		if (strstr(lowercased_contact_name, lowercased_search_term) != NULL || strstr(lowercased_contact_phone_number, lowercased_search_term) != NULL || strstr(lowercased_contact_email, lowercased_search_term) != NULL) {
+			found_count++;
+			searched_positions = realloc(searched_positions, (found_count + 1) * sizeof(unsigned long));
+			searched_positions[found_count] = (unsigned long) (ftell(file) - sizeof(Contact));
+			
+			searched_positions[0] = found_count;
+
+		}
+
+		free(lowercased_contact_name);
+		free(lowercased_contact_phone_number);
+		free(lowercased_contact_email);
+
+	}
+	free(lowercased_search_term);
+	return searched_positions;
+
+}
