@@ -1,9 +1,9 @@
 #include "contact.h"
 
+
 void get_contacts(FILE* file) {
 	Contact contact;
 	int total_contacts = 1;
-
 
 	file = fopen("contact_data.dat", "rb");
 	if (file == NULL) {
@@ -52,7 +52,6 @@ void delete_contact(long contact_index, FILE* file) {
 	while (fread(&contact_copy, sizeof(Contact), 1, file)) {
 		if (ftell(file) == contact_index) {
 			continue;
-			i++;
 		}
 
 		new_contacts[i] = contact_copy;
@@ -67,12 +66,12 @@ void delete_contact(long contact_index, FILE* file) {
 	free(new_contacts);
 }
 
-unsigned long* search_contacts(const char* search_term, FILE* file) {
+int* search_contacts(const char* search_term, FILE* file) {
 	file = fopen("contact_data.dat", "rb");
 	Contact current_contact;
 	char* lowercased_search_term = str_tolower(search_term);
-	unsigned long* searched_positions = (unsigned long*) malloc(sizeof(unsigned long));
-	unsigned long found_count = 0;
+	int* searched_positions = (int*) malloc(sizeof(int));
+	int found_count = 0;
 	searched_positions[0] = found_count;
 	
 	rewind(file);
@@ -84,19 +83,19 @@ unsigned long* search_contacts(const char* search_term, FILE* file) {
 
 		if (strstr(lowercased_contact_name, lowercased_search_term) != NULL || strstr(lowercased_contact_phone_number, lowercased_search_term) != NULL || strstr(lowercased_contact_email, lowercased_search_term) != NULL) {
 			found_count++;
-			searched_positions = realloc(searched_positions, (found_count + 1) * sizeof(unsigned long));
-			searched_positions[found_count] = (unsigned long) (ftell(file) - sizeof(Contact));
+			searched_positions = realloc(searched_positions, (found_count + 1) * sizeof(int));
+			searched_positions[found_count] = ftell(file) / sizeof(Contact) ;
 			
 			searched_positions[0] = found_count;
-
 		}
-
 		free(lowercased_contact_name);
 		free(lowercased_contact_phone_number);
 		free(lowercased_contact_email);
 
 	}
 	free(lowercased_search_term);
+
+	fclose(file);
 	return searched_positions;
 
 }
