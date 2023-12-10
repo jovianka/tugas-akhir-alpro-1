@@ -33,9 +33,9 @@ void add_contact(Contact new_contact, FILE* file) {
 }
 
 
-void delete_contact(long contact_index, FILE* file) {
+void delete_contact(int contact_index, FILE* file) {
 	// IMPORTANT: contact_index starts from 1
-	long file_size;
+	int file_size;
 	Contact* new_contacts;
 	Contact contact_copy;
 	contact_index *= sizeof(Contact);
@@ -98,4 +98,39 @@ int* search_contacts(const char* search_term, FILE* file) {
 	fclose(file);
 	return searched_positions;
 
+}
+
+void modify_contact(int contact_index, Contact new_contact, FILE* file) {
+	// IMPORTANT: contact_index starts from 1
+	int file_size;
+	Contact* new_contacts;
+	Contact contact_copy;
+	contact_index *= sizeof(Contact);
+	int i = 0;
+
+	file = fopen("contact_data.dat", "rb");
+
+	fseek(file, 0, SEEK_END);
+	file_size = ftell(file);
+	rewind(file);
+
+	new_contacts =  malloc(file_size);
+
+	while (fread(&contact_copy, sizeof(Contact), 1, file)) {
+		if (ftell(file) == contact_index) {
+			new_contacts[i] = new_contact;
+			i++;
+			continue;
+		}
+
+		new_contacts[i] = contact_copy;
+		i++;
+	}
+
+	file = fopen("contact_data.dat", "wb");
+	fwrite(new_contacts, file_size, 1, file);
+
+	fclose(file);
+
+	free(new_contacts);
 }
