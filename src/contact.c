@@ -1,29 +1,8 @@
 #include "contact.h"
 
 
-int get_contacts(FILE* file) {
-	Contact contact;
-	int total_contacts = 1;
-
-	file = fopen("contact_data.dat", "rb");
-
-	if (file == NULL) {
-		printf("no contact data found, try adding one!");
-		fclose(file);
-		return 1;
-	}
-
-	while (fread(&contact, sizeof(Contact), 1, file)) {
-		printf("%d: %s, %s, %s\n", total_contacts, contact.name, contact.phone_number, contact.email);
-		total_contacts++;
-	}
-
-	fclose(file);
-	return 0;
-}
-
-
-void add_contact(Contact new_contact, FILE* file) {
+void add_contact(Contact new_contact) {
+	FILE* file;
 	file = fopen("contact_data.dat", "ab");
 	if (file == NULL) {
 		fclose(file);
@@ -35,12 +14,14 @@ void add_contact(Contact new_contact, FILE* file) {
 	fclose(file);
 }
 
-int modify_contact(int contact_index, Contact new_contact, FILE* file) {
+
+int modify_contact(int contact_index, Contact new_contact) {
 	// IMPORTANT: contact_index starts from 1
+	FILE* file;
 
 	file = fopen("contact_data.dat", "rb");
 	if (file == NULL) {
-		printf("Nothing to delete");
+		printf("Nothing to modify");
 		fclose(file);
 		return 1;
 	}
@@ -61,7 +42,7 @@ int modify_contact(int contact_index, Contact new_contact, FILE* file) {
 		return 1;
 	}
 
-	new_contacts =  malloc(file_size);
+	new_contacts =  (Contact*)malloc(file_size);
 
 	while (fread(&contact_copy, sizeof(Contact), 1, file)) {
 		if (ftell(file) == contact_index) {
@@ -86,7 +67,9 @@ int modify_contact(int contact_index, Contact new_contact, FILE* file) {
 	return 0;
 }
 
-int delete_contact(int contact_index, FILE* file) {
+
+int delete_contact(int contact_index) {
+	FILE* file;
 	// IMPORTANT: contact_index starts from 1
 
 	file = fopen("contact_data.dat", "rb");
@@ -112,7 +95,7 @@ int delete_contact(int contact_index, FILE* file) {
 		return 1;
 	}
 
-	new_contacts =  malloc(file_size - sizeof(Contact));
+	new_contacts =  (Contact*)malloc(file_size - sizeof(Contact));
 
 	while (fread(&contact_copy, sizeof(Contact), 1, file)) {
 		if (ftell(file) == contact_index) {
@@ -135,36 +118,102 @@ int delete_contact(int contact_index, FILE* file) {
 	return 0;
 }
 
-int* search_contacts(const char* search_term, FILE* file) {
+int get_search_count(const char* search_term) {
+	FILE* file;
 	file = fopen("contact_data.dat", "rb");
+	if (file == NULL) {
+		file = fopen("contact_data.dat", "wb");
+		fclose(file);
+		file = fopen("contact_data.dat", "rb");
+	}
 	Contact current_contact;
 	char* lowercased_search_term = str_tolower(search_term);
-	int* searched_positions = (int*) malloc(sizeof(int));
 	int found_count = 0;
-	searched_positions[0] = found_count;
 	
 	rewind(file);
 
 	while (fread(&current_contact, sizeof(Contact), 1, file)) {
 		char* lowercased_contact_name = str_tolower(current_contact.name);
 		char* lowercased_contact_phone_number = str_tolower(current_contact.phone_number);
-		char* lowercased_contact_email = str_tolower(current_contact.email);
 
-		if (strstr(lowercased_contact_name, lowercased_search_term) != NULL || strstr(lowercased_contact_phone_number, lowercased_search_term) != NULL || strstr(lowercased_contact_email, lowercased_search_term) != NULL) {
+		if (strstr(lowercased_contact_name, lowercased_search_term) != NULL || strstr(lowercased_contact_phone_number, lowercased_search_term) != NULL) {
 			found_count++;
-			searched_positions = realloc(searched_positions, (found_count + 1) * sizeof(int));
-			searched_positions[found_count] = ftell(file) / sizeof(Contact) ;
-			
-			searched_positions[0] = found_count;
 		}
 		free(lowercased_contact_name);
 		free(lowercased_contact_phone_number);
-		free(lowercased_contact_email);
 
 	}
 	free(lowercased_search_term);
 
 	fclose(file);
-	return searched_positions;
+	return found_count;
+}
+
+int* search_and_get_contact_indices(const char* search_term) {
+	FILE* file;
+	file = fopen("contact_data.dat", "rb");
+	if (file == NULL) {
+		file = fopen("contact_data.dat", "wb");
+		fclose(file);
+		file = fopen("contact_data.dat", "rb");
+	}
+	Contact current_contact;
+	char* lowercased_search_term = str_tolower(search_term);
+	int* searched_indices = (int*)malloc(sizeof(int));
+	int found_count = 0;
+	
+	rewind(file);
+
+	while (fread(&current_contact, sizeof(Contact), 1, file)) {
+		char* lowercased_contact_name = str_tolower(current_contact.name);
+		char* lowercased_contact_phone_number = str_tolower(current_contact.phone_number);
+
+		if (strstr(lowercased_contact_name, lowercased_search_term) != NULL || strstr(lowercased_contact_phone_number, lowercased_search_term) != NULL) {
+			found_count++;
+			searched_indices = realloc(searched_indices, found_count * sizeof(int));
+			searched_indices[found_count - 1] = ftell(file) / sizeof(Contact);
+		}
+		free(lowercased_contact_name);
+		free(lowercased_contact_phone_number);
+
+	}
+	free(lowercased_search_term);
+
+	fclose(file);
+	return searched_indices;
+}
+
+Contact* search_and_get_contacts(const char* search_term) {
+	FILE* file;
+	file = fopen("contact_data.dat", "rb");
+	if (file == NULL) {
+		file = fopen("contact_data.dat", "wb");
+		fclose(file);
+		file = fopen("contact_data.dat", "rb");
+	}
+	Contact current_contact;
+	char* lowercased_search_term = str_tolower(search_term);
+	Contact* searched_contacts = (Contact*)malloc(0);
+	int found_count = 0;
+	
+	rewind(file);
+
+	while (fread(&current_contact, sizeof(Contact), 1, file)) {
+		char* lowercased_contact_name = str_tolower(current_contact.name);
+		char* lowercased_contact_phone_number = str_tolower(current_contact.phone_number);
+
+		if (strstr(lowercased_contact_name, lowercased_search_term) != NULL || strstr(lowercased_contact_phone_number, lowercased_search_term) != NULL) {
+			found_count++;
+			searched_contacts = realloc(searched_contacts, (found_count) * sizeof(Contact));
+			searched_contacts[found_count - 1] = current_contact;
+		}
+		free(lowercased_contact_name);
+		free(lowercased_contact_phone_number);
+
+	}
+	free(lowercased_search_term);
+
+	fclose(file);
+	return searched_contacts;
 
 }

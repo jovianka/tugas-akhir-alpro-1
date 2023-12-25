@@ -7,6 +7,6 @@ char* str_tolower(const char* str) {
     lowercased_string[i] = tolower(str[i]);
   }
   lowercased_string[strlen(str)] = '\0';
-  
+
   return lowercased_string;
 }
