@@ -85,7 +85,7 @@ Everything is written in pure C with ncurses and the app is built with CMake.
    ```
 3. Make the binary
    ```sh
-   cmake -lncurses -lmenu -lpanel -S ./src -B ./build && cd build && make
+   cmake -S ./src -B ./build && cd build && make
    ```
 4. Run tugasakhir
    ```sh
