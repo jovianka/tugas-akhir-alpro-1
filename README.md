@@ -13,7 +13,7 @@
 <!-- PROJECT LOGO -->
 </br>
 <div align="center">
-  <a href="https://github.com/dash4k/tugas-akhir-alpro-1e">
+  <a href="https://github.com/jovianka/tugas-akhir-alpro-1">
     <img src="https://github.com/dash4k/tugas-akhir-alpro-1/assets/133938416/ff71757a-1b51-44b7-b14e-b53b061d9815" alt="Logo" width="230" height="259">
   </a>
 
@@ -57,12 +57,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot](https://github.com/dash4k/tugas-akhir-alpro-1/assets/133938416/e3f66c2b-1680-4ac2-bce7-2c163a454fd1)
+![image](https://github.com/jovianka/tugas-akhir-alpro-1/assets/83814092/005eacbf-eefb-4669-a6f1-635c7bbea370)
 
 
 This project is created for to fulfill the requirements for passing the first semester course: Algoritma dan Pemrograman, of computer science department at Udayana University.
 
-There are six main features of this Contact App:
+There are 5 main features of this Contact App:
 * Adding Contact
 * Showing Contact
 * Modifying Contact
@@ -115,14 +115,12 @@ Distributed under the WTFPL License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/dash4k/tugas-akhir-alpro-1?style=flat-square&color=%23ADD8E6
+[contributors-shield]: https://img.shields.io/github/contributors/jovianka/tugas-akhir-alpro-1?style=flat-square&color=%23ADD8E6
 [contributors-url]: https://github.com/jovianka/tugas-akhir-alpro-1/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/dash4k/tugas-akhir-alpro-1?style=flat-square&color=%23ADD8E6
+[forks-shield]: https://img.shields.io/github/forks/jovianka/tugas-akhir-alpro-1?style=flat-square&color=%23ADD8E6
 [forks-url]: https://github.com/jovianka/tugas-akhir-alpro-1/forks
-[license-shield]: https://img.shields.io/github/license/dash4k/tugas-akhir-alpro-1?style=flat-square&color=%23ADD8E6
-[license-url]: https://github.com/dash4k/tugas-akhir-alpro-1/blob/main/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/dash4k
+[license-shield]: https://img.shields.io/github/license/jovianka/tugas-akhir-alpro-1?style=flat-square&color=%23ADD8E6
+[license-url]: https://github.com/jovianka/tugas-akhir-alpro-1/blob/main/LICENSE
 [C.badge]: https://img.shields.io/badge/C-A8B9CC.svg?style=for-the-badge&logo=C&logoColor=black
 [CMake.org]: https://img.shields.io/badge/CMake-064F8C.svg?style=for-the-badge&logo=CMake&logoColor=white
 [CMake-url]: https://cmake.org/
@@ -130,5 +128,3 @@ Distributed under the WTFPL License. See `LICENSE` for more information.
 [VScode-url]: https://code.visualstudio.com/
 [Github.com]: https://img.shields.io/badge/GitHub-181717.svg?style=for-the-badge&logo=GitHub&logoColor=white
 [Github-url]: https://github.com/
-[Discord.com]: https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white
-[Discord-url]: https://discordapp.com/users/404631156068188170
