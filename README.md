@@ -20,7 +20,7 @@
 <h3 align="center">Final Project Algoritma dan Pemrograman</h3>
 
   <p align="center">
-    Contact manager app built mainly in C with TUI using ncurses
+    TUI based contact manager app for Mac OS/Linux. Built using c with ncurses' menu library and panel library.
   </p>
 </div>
 </br>
