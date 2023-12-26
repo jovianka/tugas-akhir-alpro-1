@@ -50,7 +50,7 @@ int main() {
 	init_pair(2, COLOR_RED, COLOR_BLACK);
 
 	keypad(contact_win, TRUE);
-	int quit = 1;
+	int quit = 0;
 	char search_term[255] = "";
 	int searched_count;
 	MENU* contact_menu;
@@ -71,8 +71,8 @@ int main() {
 
 	top = contact_panels[2];
 
-	while (quit == 1) {
-		if (searched_count > 0) {
+	while (quit != 1) {
+		if (searched_count != 0) {
 			ITEM* cur_item = current_item(contact_menu);
 			int* cur_contact_index = item_userptr(cur_item);
 			display_details(details_win, *cur_contact_index);
@@ -87,10 +87,12 @@ int main() {
 
 		switch (ch) {
 			case 'q':
-				quit = 0;
+			case 'Q':
+				quit = 1;
 				break;
 
 			case 'f':
+			case 'F':
 				wmove(contact_win, y_contact_win - 2, 0);
 				wclrtoeol(contact_win);
 				box(contact_win, 0, 0);
@@ -122,7 +124,7 @@ int main() {
 					wclrtoeol(contact_win);
 					mvwprintw(contact_win, y_contact_win - 2, 2, "No results found");
 				} else {
-					mvwprintw(contact_win, y_contact_win - 2, 2, search_term);
+					mvwprintw(contact_win, y_contact_win - 2, 10, search_term);
 				}
 
 				box(contact_win, 0, 0);
@@ -133,6 +135,7 @@ int main() {
 
 
 			case 'a':
+			case 'A':
 				wmove(input_win, 2, 2);
 				wclrtoeol(input_win);
 				wmove(input_win, 3, 2);
@@ -205,12 +208,11 @@ int main() {
 				post_menu(contact_menu);
 				box(contact_win, 0, 0);
 				mvwprintw(contact_win, 0, x_contact_win / 2 - 11, " CONTACT MANAGER WOW! ");
-
-
 				break;
 
 
 			case 'e':
+			case 'E':
 				if (searched_count > 0) {
 					ITEM* cur_item = current_item(contact_menu);
 					int* cur_contact_index = item_userptr(cur_item);
@@ -310,6 +312,7 @@ int main() {
 
 
 			case 'd':
+			case 'D':
 				if (searched_count > 0) {
 					ITEM* cur_item = current_item(contact_menu);
 					int* cur_contact_index = item_userptr(cur_item);

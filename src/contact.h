@@ -7,6 +7,7 @@
 #include <ncurses.h>
 #include <menu.h>
 #include <panel.h>
+#include <form.h>
 #include "utils.h"
 
 struct Contact {

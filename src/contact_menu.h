@@ -5,3 +5,4 @@ ITEM** get_searched_contact_items(Contact* searched_contacts, int* searched_cont
 void free_menu_full(MENU* menu, ITEM** items, int items_count);
 MENU* new_wmenu(WINDOW* win, ITEM** items, MENU* menuptr);
 void display_details(WINDOW* win, int contact_index);
+void edit_form(WINDOW* win, int contact_index);
