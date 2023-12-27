@@ -122,7 +122,7 @@ int main() {
 					wclrtoeol(contact_win);
 					mvwprintw(contact_win, y_contact_win - 2, 2, "No results found");
 				} else {
-					mvwprintw(contact_win, y_contact_win - 2, 2, search_term);
+					mvwprintw(contact_win, y_contact_win - 2, 10, search_term);
 				}
 
 				box(contact_win, 0, 0);
